@@ -15,7 +15,6 @@ import Month from './month';
 import Card from 'components/card';
 import SectionHeader from 'components/section-header';
 
-
 export default React.createClass( {
 
 	displayName: 'PostTrends',
@@ -64,7 +63,7 @@ export default React.createClass( {
 		scrollProps.canScrollLeft = left < 0;
 		scrollProps.canScrollRight = ( left > ( 0 - yearNode.scrollWidth + node.clientWidth - margin ) );
 
-		if ( this.state.canScrollLeft && node.clientWidth > ( yearNode.scrollWidth - margin ) ) {
+		if ( this.state.canScrollLeft && node.clientWidth >= ( yearNode.scrollWidth - margin ) ) {
 			yearNode.style.left = '0px';
 		}
 
@@ -141,14 +140,12 @@ export default React.createClass( {
 
 		return (
 
-			<div className="post-trends">
+			<div className={ containerClass }>
 				<SectionHeader label={ this.translate( 'Posting Activity' ) }></SectionHeader>
 				<Card>
 					<div className={ leftClass } onClick={ this.scrollLeft }><span className="left-arrow"></span></div>
 					<div className={ rightClass } onClick={ this.scrollRight }><span className="right-arrow"></span></div>
 					<div ref="wrapper" className="post-trends__wrapper">
-						<div className={ leftClass } onClick={ this.scrollLeft }><span className="left-arrow"></span></div>
-						<div className={ rightClass } onClick={ this.scrollRight }><span className="right-arrow"></span></div>
 						<div ref="year" className="post-trends__year">
 							{ this.getMonthComponents() }
 						</div>
