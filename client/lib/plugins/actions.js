@@ -192,7 +192,7 @@ PluginsActions = {
 	},
 
 	installPlugin: function( site, plugin ) {
-		var install, activate, autoupdate, dispatchMessage, manageError, manageSuccess;
+		var install, update, activate, autoupdate, dispatchMessage, manageError, manageSuccess;
 
 		if ( ! site.canUpdateFiles ) {
 			return getRejectedPromise( 'Error: Can\'t update files on the site' )
@@ -204,6 +204,10 @@ PluginsActions = {
 
 		install = function() {
 			return queueSitePluginActionAsPromise( wpcom.pluginsInstall.bind( wpcom ), site.ID, plugin.slug );
+		};
+
+		update = function( pluginData ) {
+			return queueSitePluginActionAsPromise( wpcom.pluginsUpdate.bind( wpcom ), site.ID, pluginData.id );
 		};
 
 		activate = function( pluginData ) {
@@ -239,17 +243,21 @@ PluginsActions = {
 		manageError = function( error ) {
 			if ( error.name === 'PluginAlreadyInstalledError' ) {
 				if ( site.isMainNetworkSite() ) {
-					return autoupdate( plugin )
+					return update( plugin )
+						.then( autoupdate )
 						.then( manageSuccess )
 						.catch( manageError );
 				}
-				return activate( plugin )
+
+				return update( plugin )
+					.then( activate )
 					.then( autoupdate )
 					.then( manageSuccess )
 					.catch( manageError );
 			}
 			if ( error.name === 'ActivationErrorError' ) {
-				return autoupdate( plugin )
+				return update( plugin )
+					.then( autoupdate )
 					.then( manageSuccess )
 					.catch( manageError );
 			}
