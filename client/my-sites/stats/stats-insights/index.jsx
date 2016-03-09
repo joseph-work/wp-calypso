@@ -55,7 +55,6 @@ export default React.createClass( {
 		const moduleStrings = statsStrings();
 
 		let tagsList;
-		let overview = <SiteOverviewPlaceholder insights={ true } />;
 		let summaryData = statSummaryList.get( site.ID, summaryDate );
 
 		if ( ! site.jetpack ) {

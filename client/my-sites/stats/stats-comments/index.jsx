@@ -10,7 +10,6 @@ import classNames from 'classnames';
 import observe from 'lib/mixins/data-observe';
 import analytics from 'analytics';
 import Card from 'components/card';
-import Gridicon from 'components/gridicon';
 import CommentTab from './comment-tab';
 import StatsErrorPanel from '../stats-error';
 import StatsModulePlaceholder from '../stats-module/placeholder';

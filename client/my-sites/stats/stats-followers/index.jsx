@@ -2,8 +2,7 @@
  * External dependencies
  */
 var React = require( 'react' ),
-	classNames = require( 'classnames' ),
-	debug = require( 'debug' )( 'calypso:stats:module-followers' );
+	classNames = require( 'classnames' );
 
 /**
  * Internal dependencies
