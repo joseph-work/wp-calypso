@@ -5,7 +5,8 @@ var debug = require( 'debug' )( 'calypso:media' ),
 	assign = require( 'lodash/assign' ),
 	uniqueId = require( 'lodash/uniqueId' ),
 	isPlainObject = require( 'lodash/isPlainObject' ),
-	path = require( 'path' );
+	path = require( 'path' ),
+	url = require( 'url' );
 
 /**
  * Internal dependencies
@@ -116,13 +117,18 @@ MediaActions.add = function( siteId, files ) {
 			date: new Date( baseTime - ( files.length - i ) ).toISOString()
 		};
 
-		if ( 'string' === typeof file ) {
-			// Generate from string
+		// Determine upload mechanism by object type
+		const isUrl = 'string' === typeof file;
+		const addHandler = isUrl ? 'addMediaUrls' : 'addMediaFiles';
+
+		if ( isUrl ) {
+			// Generate from URL
+			const filePath = url.parse( file ).pathname;
 			assign( transientMedia, {
 				file: file,
-				extension: path.extname( file ).slice( 1 ),
-				mime_type: MediaUtils.getMimeType( file ),
-				title: path.basename( file )
+				extension: path.extname( filePath ).slice( 1 ),
+				mime_type: MediaUtils.getMimeType( filePath ),
+				title: path.basename( filePath )
 			} );
 		} else {
 			// Generate from window.File object
@@ -150,10 +156,6 @@ MediaActions.add = function( siteId, files ) {
 		if ( MediaValidationStore.getErrors( siteId, id ).length ) {
 			return Promise.resolve();
 		}
-
-		// Determine upload mechanism by object type
-		const isUrl = 'string' === typeof file;
-		const addHandler = isUrl ? 'addMediaUrls' : 'addMediaFiles';
 
 		// Assign parent ID if currently editing post
 		const post = PostEditStore.get();
