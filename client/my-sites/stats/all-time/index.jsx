@@ -10,7 +10,6 @@ import classNames from 'classnames';
 import observe from 'lib/mixins/data-observe';
 import Card from 'components/card';
 import User from 'lib/user';
-import toggle from '../mixin-toggle';
 import StatsTabs from '../stats-tabs';
 import StatsTab from '../stats-tabs/tab';
 import SectionHeader from 'components/section-header';
@@ -20,7 +19,7 @@ const user = User();
 export default React.createClass( {
 	displayName: 'StatsAllTime',
 
-	mixins: [ toggle( 'allTimeList' ), observe( 'allTimeList' ) ],
+	mixins: [observe( 'allTimeList' ) ],
 
 	propTypes: {
 		allTimeList: PropTypes.object.isRequired
@@ -28,7 +27,6 @@ export default React.createClass( {
 
 	render() {
 		const allTimeList = this.props.allTimeList.response;
-		const { showInfo, showModule } = this.state;
 		const isLoading = this.props.allTimeList.isLoading();
 
 		let bestDay;
@@ -38,8 +36,6 @@ export default React.createClass( {
 		}
 
 		const classes = {
-			'is-expanded': showModule,
-			'is-showing-info': showInfo,
 			'is-loading': this.props.allTimeList.isLoading(),
 			'is-non-en': user.data.localeSlug && ( user.data.localeSlug !== 'en' )
 		};
@@ -51,10 +47,6 @@ export default React.createClass( {
 				<SectionHeader label={ this.translate( 'All-time posts, views, and visitors' ) }></SectionHeader>
 				<Card className={ classNames( 'stats-module', 'stats-all-time', classes ) }>
 					<div className="module-content">
-						<div className="module-content-text module-content-text-info">
-							<p>{ this.translate( 'These are your site\'s overall total number of Posts, Views and Visitors as well as the day when you had the most number of Views.' ) }</p>
-						</div>
-
 						<StatsTabs borderless>
 							<StatsTab
 								gridicon="posts"

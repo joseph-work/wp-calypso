@@ -9,8 +9,6 @@ var React = require( 'react' ),
  */
 var Card = require( 'components/card' ),
 	observe = require( 'lib/mixins/data-observe' ),
-	toggle = require( 'my-sites/stats/mixin-toggle' ),
-	Gridicon = require( 'components/gridicon' ),
 	SectionHeader = require( 'components/section-header' );
 
 module.exports = React.createClass( {
@@ -20,11 +18,10 @@ module.exports = React.createClass( {
 		insightsList: React.PropTypes.object.isRequired
 	},
 
-	mixins: [ observe( 'insightsList' ), toggle( 'mostPopular' ) ],
+	mixins: [ observe( 'insightsList' ) ],
 
 	render: function() {
 		var emptyMessage = null,
-			infoIcon = this.state.showInfo ? 'info' : 'info-outline',
 			data,
 			isLoading,
 			isEmpty,
@@ -39,8 +36,6 @@ module.exports = React.createClass( {
 			'stats-most-popular',
 			'is-site-overview',
 			{
-				'is-expanded': this.state.showModule,
-				'is-showing-info': this.state.showInfo,
 				'is-loading': isLoading,
 				'is-empty': isEmpty
 			}
@@ -63,11 +58,8 @@ module.exports = React.createClass( {
 		return (
 			<div>
 				<SectionHeader label={ this.translate( 'Most popular day and hour' ) }></SectionHeader>
-					<Card className={ classNames.apply( null, classes ) }>
+					<Card className={ classNames( classes ) }>
 						<div className="module-content">
-							<div className="module-content-text module-content-text-info">
-								<p>{ this.translate( 'This is the day and hour when you have been getting the most Views on average. The best timing for publishing a post may be around this period.' ) }</p>
-							</div>
 							<div className="stats-popular">
 								<div className="stats-popular__item">
 									<span className="stats-popular__label">{ this.translate( 'Most popular day' ) }</span>

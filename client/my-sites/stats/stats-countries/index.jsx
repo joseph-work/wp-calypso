@@ -12,7 +12,6 @@ import toggle from '../mixin-toggle';
 import Geochart from '../geochart';
 import StatsList from '../stats-list';
 import observe from 'lib/mixins/data-observe';
-import skeleton from '../mixin-skeleton';
 import DownloadCsv from '../stats-download-csv';
 import DatePicker from '../stats-date-picker';
 import ErrorPanel from '../stats-error';
@@ -26,7 +25,7 @@ import Button from 'components/button';
 export default React.createClass( {
 	displayName: 'StatCountries',
 
-	mixins: [ toggle( 'Countries' ), skeleton( 'data' ), observe( 'dataList' ) ],
+	mixins: [ toggle( 'Countries' ), observe( 'dataList' ) ],
 
 	data( nextProps ) {
 		var props = nextProps || this.props;
@@ -65,10 +64,8 @@ export default React.createClass( {
 			'stats-module',
 			'is-countries',
 			{
-				'is-expanded': this.state.showModule,
 				summary: this.props.summary,
 				'is-loading': isLoading,
-				'is-showing-info': this.state.showInfo,
 				'has-no-data': noData,
 				'is-showing-error': hasError || noData
 			}

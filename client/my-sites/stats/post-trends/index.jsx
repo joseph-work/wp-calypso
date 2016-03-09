@@ -134,7 +134,7 @@ export default React.createClass( {
 			'is-loading': this.props.streakList.isLoading()
 		} );
 
-		if( touchDetect.hasTouch() ) {
+		if ( touchDetect.hasTouch() ) {
 			return null;
 		}
 

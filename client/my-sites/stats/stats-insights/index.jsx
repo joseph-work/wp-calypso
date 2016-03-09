@@ -18,7 +18,6 @@ import StatsModule from '../stats-module';
 import statsStrings from '../stats-strings';
 import MostPopular from 'my-sites/stats/most-popular';
 import LatestPostSummary from '../post-performance';
-import touchDetect from 'lib/touch-detect';
 
 export default React.createClass( {
 	displayName: 'StatsInsights',
@@ -80,7 +79,7 @@ export default React.createClass( {
 						summaryData={ summaryData }
 						path={ '/stats/day' }
 						insights={ true }
-						 />
+					/>
 					<AllTime allTimeList={ allTimeList } />
 					<MostPopular insightsList={ insightsList } />
 					<div className="stats-nonperiodic has-recent">

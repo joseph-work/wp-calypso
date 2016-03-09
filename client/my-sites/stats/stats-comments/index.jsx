@@ -13,7 +13,6 @@ import Card from 'components/card';
 import Gridicon from 'components/gridicon';
 import CommentTab from './comment-tab';
 import StatsErrorPanel from '../stats-error';
-import StatsModuleHeader from '../stats-module/header';
 import StatsModulePlaceholder from '../stats-module/placeholder';
 import StatsModuleContent from '../stats-module/content-text';
 import StatsModuleSelectDropdown from '../stats-module/select-dropdown';
@@ -109,8 +108,8 @@ export default React.createClass( {
 	},
 
 	render() {
-		const { activeFilter, showInfo, showModule } = this.state;
-		const { commentsList, followList, path, site } = this.props;
+		const { activeFilter } = this.state;
+		const { commentsList, followList } = this.props;
 		const hasError = commentsList.isError();
 		const noData = commentsList.isEmpty( 'authors' );
 		const data = this.data();
@@ -122,9 +121,7 @@ export default React.createClass( {
 		const classes = classNames(
 			'stats-module',
 			{
-				'is-expanded': true,
 				'is-loading': ! data,
-				'is-showing-info': this.state.showInfo,
 				'has-no-data': noData,
 				'is-showing-error': hasError || noData
 			}
@@ -135,13 +132,6 @@ export default React.createClass( {
 				<SectionHeader label={ this.translate( 'Comments' ) }></SectionHeader>
 				<Card className={ classes }>
 					<div className="module-content">
-						<StatsModuleContent className="module-content-text-info">
-							<p>{ this.translate( 'If you allow comments on your site, track your top commenters and discover what content sparks the liveliest conversations, based on the most recent 1,000 comments.' ) }</p>
-							<ul className="documentation">
-								<li><a href="http://en.support.wordpress.com/enable-disable-comments/" target="_blank"><Gridicon icon="help-outline" /> { this.translate( 'How do I turn on/off comments?' ) }</a></li>
-								<li><a href="http://en.support.wordpress.com/category/comments/" target="_blank"><Gridicon icon="folder" /> { this.translate( 'About Comments' ) }</a></li>
-							</ul>
-						</StatsModuleContent>
 
 						{ ( noData && ! hasError ) ? <StatsErrorPanel className="is-empty-message" message={ this.translate( 'No comments posted' ) } /> : null }
 

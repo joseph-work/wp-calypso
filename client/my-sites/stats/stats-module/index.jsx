@@ -8,8 +8,6 @@ import classNames from 'classnames';
 /**
  * Internal dependencies
  */
-import toggle from '../mixin-toggle';
-import skeleton from '../mixin-skeleton';
 import observe from 'lib/mixins/data-observe';
 import ErrorPanel from '../stats-error';
 import StatsList from '../stats-list';
@@ -25,7 +23,7 @@ import Button from 'components/button';
 export default React.createClass( {
 	displayName: 'StatModule',
 
-	mixins: [ toggle(), skeleton( 'data' ), observe( 'dataList' ) ],
+	mixins: [ observe( 'dataList' ) ],
 
 	data() {
 		return this.props.dataList.response.data;
@@ -75,9 +73,7 @@ export default React.createClass( {
 		classes = classNames(
 			'stats-module',
 			{
-				'is-expanded': this.state.showModule,
 				'is-loading': isLoading,
-				'is-showing-info': this.state.showInfo,
 				'has-no-data': noData,
 				'is-showing-error': hasError || noData
 			}
