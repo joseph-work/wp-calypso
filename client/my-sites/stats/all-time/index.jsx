@@ -11,7 +11,6 @@ import observe from 'lib/mixins/data-observe';
 import Card from 'components/card';
 import User from 'lib/user';
 import toggle from '../mixin-toggle';
-import Gridicon from 'components/gridicon';
 import StatsTabs from '../stats-tabs';
 import StatsTab from '../stats-tabs/tab';
 import SectionHeader from 'components/section-header';
@@ -28,7 +27,6 @@ export default React.createClass( {
 	},
 
 	render() {
-		const infoIcon = this.state.showInfo ? 'info' : 'info-outline';
 		const allTimeList = this.props.allTimeList.response;
 		const { showInfo, showModule } = this.state;
 		const isLoading = this.props.allTimeList.isLoading();
@@ -57,7 +55,7 @@ export default React.createClass( {
 							<p>{ this.translate( 'These are your site\'s overall total number of Posts, Views and Visitors as well as the day when you had the most number of Views.' ) }</p>
 						</div>
 
-						<StatsTabs>
+						<StatsTabs borderless>
 							<StatsTab
 								gridicon="posts"
 								label={ this.translate( 'Posts' ) }

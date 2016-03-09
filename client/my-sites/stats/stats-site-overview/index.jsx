@@ -6,7 +6,6 @@ import React, { PropTypes } from 'react';
 /**
  * Internal dependencies
  */
-import SiteIcon from 'components/site-icon';
 import observe from 'lib/mixins/data-observe';
 import route from 'lib/route';
 import Card from 'components/card';
@@ -37,22 +36,15 @@ export default React.createClass( {
 		const siteStatsPath = [ path, site.slug ].join( '/' );
 		let headerPath = siteStatsPath;
 		let title;
-		let icon;
 
 		if ( insights ) {
 			title = this.translate( 'Today\'s Stats' );
 		} else {
 			title = site.title;
-			icon = (
-				<div className="module-header__site-icon">
-					<SiteIcon site={ site } size={ 24 } />
-				</div>
-			);
-
 			headerPath = route.getStatsDefaultSitePage( site.slug );
 		}
 
-		if( ! this.props.summaryData ) {
+		if ( ! this.props.summaryData ) {
 			return;
 		}
 
@@ -62,7 +54,7 @@ export default React.createClass( {
 					<Button borderless compact href={ headerPath }><Gridicon icon="stats-alt" /></Button>
 				</SectionHeader>
 				<Card key={ site.ID } className="stats__overview stats-module is-site-overview">
-					<StatsTabs>
+					<StatsTabs borderless>
 						<StatsTab
 							className={ this.isValueLow( views ) ? 'is-low' : null }
 							href={ siteStatsPath }
