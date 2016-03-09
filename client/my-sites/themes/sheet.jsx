@@ -40,6 +40,10 @@ export const ThemeSheet = React.createClass( {
 		supportDocumentation: React.PropTypes.string,
 	},
 
+	getDefaultProps() {
+		return { section: 'details' };
+	},
+
 	onBackClick() {
 		page.back();
 	},
