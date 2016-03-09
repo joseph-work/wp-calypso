@@ -44,14 +44,18 @@ export default React.createClass( {
 	},
 
 	viewAllHandler( event ) {
-		var summaryPageLink = '/stats/' + this.props.period.period + '/' + this.props.path + '/' + this.props.site.slug + '?startDate=' + this.props.date;
+		var summaryPageLink;
 
-		event.preventDefault();
+		if ( this.props.period && this.props.path && this.props.site ) {
+			summaryPageLink = '/stats/' + this.props.period.period + '/' + this.props.path + '/' + this.props.site.slug + '?startDate=' + this.props.date;
 
-		if ( this.props.beforeNavigate ) {
-			this.props.beforeNavigate();
+			event.preventDefault();
+
+			if ( this.props.beforeNavigate ) {
+				this.props.beforeNavigate();
+			}
+			page( summaryPageLink );
 		}
-		page( summaryPageLink );
 	},
 
 	getModuleLabel() {
@@ -60,6 +64,19 @@ export default React.createClass( {
 		}
 
 		return ( <DatePicker period={ this.props.period.period } date={ this.props.period.startOf } summary={ true } /> );
+	},
+
+	renderViewAllButton() {
+		// Some modules do not have view all abilities
+		if ( ! this.props.summary && this.props.period ) {
+			return (
+				<Button compact borderless onClick={ this.viewAllHandler }>
+					<Gridicon icon="stats-alt" />
+				</Button>
+			);
+		}
+
+		return null;
 	},
 
 	render() {
@@ -86,13 +103,7 @@ export default React.createClass( {
 
 				<SectionHeader label={ this.getModuleLabel() }>
 					{ ! this.props.summary
-						? ( <Button
-								compact
-								borderless
-								onClick={ this.viewAllHandler }
-								>
-								<Gridicon icon="stats-alt" />
-							</Button> )
+						? this.renderViewAllButton()
 						: ( <DownloadCsv period={ this.props.period } path={ this.props.path } site={ this.props.site } dataList={ this.props.dataList } /> ) }
 				</SectionHeader>
 				<Card compact className={ classes }>
