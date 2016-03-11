@@ -51,8 +51,7 @@ User.prototype.initialize = function() {
 	this.initialized = false;
 
 	if ( isSupportUserSession() ) {
-		supportUserBoot();
-		this.fetch();
+		supportUserBoot().then( () => this.fetch() )
 
 		// We're booting into support user mode, skip initialization of the main user.
 		return;

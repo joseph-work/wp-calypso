@@ -3,6 +3,7 @@
  */
 import debugModule from 'debug';
 import noop from 'lodash/noop';
+import localForage from 'localforage';
 
 /**
  * Internal dependencies
@@ -10,6 +11,7 @@ import noop from 'lodash/noop';
 import wpcom from 'lib/wp';
 import config from 'config';
 import store from 'store';
+import localForageBypass from 'support/support-user/localforage-bypass';
 import { supportUserTokenFetch, supportUserActivate, supportUserError } from 'state/support/actions';
 
 /**
@@ -93,23 +95,42 @@ const onTokenError = ( error ) => {
 
 /**
  * Inject the support user token into all following API calls
+ * @returns {Promise}      A promise that resolves when the support user boot sequence is complete
  */
 export const boot = () => {
-	if ( ! isEnabled() ) {
-		return;
-	}
+	return new Promise( ( resolve, reject ) => {
+		if ( ! isEnabled() ) {
+			resolve();
+			return;
+		}
 
-	const { user, token } = store.get( STORAGE_KEY );
-	debug( 'Booting Calypso with support user', user );
+		const { user, token } = store.get( STORAGE_KEY );
+		store.remove( STORAGE_KEY );
+		debug( 'Booting Calypso with support user', user );
 
-	const errorHandler = ( error ) => onTokenError( error );
+		const bypassLocalForage = () => {
+			debug( 'Bypassing localForage' );
+			return localForage.defineDriver( localForageBypass ).then( () => {
+				return localForage.setDriver( 'localForageBypass' );
+			} );
+		}
 
-	wpcom.setSupportUserToken( user, token, errorHandler );
+		const setSupportUserToken = () => {
+			const errorHandler = ( error ) => onTokenError( error );
 
-	// boot() is called before the redux store is ready, so we need to
-	// wait for it to become available
-	reduxStoreReady.then( ( reduxStore ) => {
-		reduxStore.dispatch( supportUserActivate() );
+			wpcom.setSupportUserToken( user, token, errorHandler );
+		}
+
+		// boot() is called before the redux store is ready, so we need to
+		// wait for it to become available
+		reduxStoreReady.then( ( reduxStore ) => {
+			reduxStore.dispatch( supportUserActivate() );
+		} );
+
+		return bypassLocalForage()
+			.then( setSupportUserToken )
+			.then( resolve )
+			.catch( reject );
 	} );
 };
 
