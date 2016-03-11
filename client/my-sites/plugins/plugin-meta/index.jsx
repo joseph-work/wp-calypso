@@ -209,7 +209,8 @@ export default React.createClass( {
 	hasInstallButton() {
 		if ( this.props.selectedSite ) {
 			return ! this.props.isInstalledOnSite &&
-				this.props.selectedSite.user_can_manage &&
+				this.props.selectedSite.capabilities &&
+				this.props.selectedSite.capabilities.manage_options &&
 				this.props.selectedSite.jetpack;
 		}
 	},

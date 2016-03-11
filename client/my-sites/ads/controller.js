@@ -50,7 +50,7 @@ module.exports = {
 
 		titleActions.setTitle( layoutTitle, { siteID: context.params.site_id } );
 
-		if ( ! site.user_can_manage ) {
+		if ( ! ( site.capabilities && site.capabilities.manage_options ) ) {
 			page.redirect( '/stats' + pathSuffix );
 			return;
 		}

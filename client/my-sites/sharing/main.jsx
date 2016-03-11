@@ -44,7 +44,14 @@ module.exports = React.createClass( {
 
 		// Include Sharing Buttons link if a site is selected and the
 		// required Jetpack module is active
-		if ( site && site.user_can_manage && ( ! site.jetpack || ( site.isModuleActive( 'sharedaddy' ) && site.versionCompare( '3.4-dev', '>=' ) ) ) ) {
+		if ( site &&
+			site.capabilities &&
+			site.capabilities.manage_options &&
+			( ! site.jetpack ||
+				( site.isModuleActive( 'sharedaddy' ) &&
+					site.versionCompare( '3.4-dev', '>=' ) )
+				)
+			) {
 			filters.push( { title: this.translate( 'Sharing Buttons' ), path: '/sharing/buttons' + pathSuffix, id: 'sharing-buttons' } );
 		}
 

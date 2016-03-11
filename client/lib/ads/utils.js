@@ -14,7 +14,8 @@ module.exports = {
 		if ( config.isEnabled( 'manage/ads' ) ) {
 			return site.options &&
 				site.options.wordads &&
-				site.user_can_manage &&
+				site.capabilities &&
+				site.capabilities.manage_options &&
 				( ! site.jetpack || config.isEnabled( 'manage/ads/jetpack' ) );
 		}
 

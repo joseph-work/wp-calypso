@@ -25,7 +25,10 @@ module.exports = {
 
 		titleActions.setTitle( i18n.translate( 'Sharing', { textOnly: true } ), { siteID: siteUrl } );
 
-		if ( site && ! site.settings && site.user_can_manage ) {
+		if ( site &&
+			! site.settings &&
+			site.capabilities &&
+			site.capabilities.manage_options ) {
 			site.fetchSettings();
 		}
 
@@ -90,7 +93,7 @@ module.exports = {
 
 		analytics.pageView.record( baseAnalyticsPath, analyticsPageTitle + ' > Sharing Buttons' );
 
-		if ( site && ! site.user_can_manage ) {
+		if ( site && ! ( site.capabilities && site.capabilities.manage_options ) ) {
 			notices.error( i18n.translate( 'You are not authorized to manage sharing settings for this site.' ) );
 		}
 

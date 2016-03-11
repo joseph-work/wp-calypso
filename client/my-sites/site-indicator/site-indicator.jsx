@@ -64,7 +64,10 @@ export default React.createClass( {
 
 	showIndicator() {
 		// Until WP.com sites have indicators (upgrades expiring, etc) we only show them for Jetpack sites
-		return this.props.site.user_can_manage && this.props.site.jetpack && ( this.hasUpdate() || this.hasError() || this.hasWarning() || this.state.updateError );
+		return this.props.site.capabilities &&
+			this.props.site.capabilities.manage_options &&
+			this.props.site.jetpack &&
+			( this.hasUpdate() || this.hasError() || this.hasWarning() || this.state.updateError );
 	},
 
 	toggleExpand() {

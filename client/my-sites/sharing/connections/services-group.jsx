@@ -64,7 +64,7 @@ module.exports = React.createClass( {
 			}
 
 			// Omit if service is settings-oriented and user cannot manage
-			if ( 'eventbrite' === service.name && ! site.user_can_manage ) {
+			if ( 'eventbrite' === service.name && ! ( site.capabilities && site.capabilities.manage_options ) ) {
 				return false;
 			}
 
@@ -101,9 +101,8 @@ module.exports = React.createClass( {
 	renderServices: function( services ) {
 		if ( this.props.initialized ) {
 			return services.map( this.renderService, this );
-		} else {
-			return this.renderServicePlaceholders();
 		}
+		return this.renderServicePlaceholders();
 	},
 
 	render: function() {
