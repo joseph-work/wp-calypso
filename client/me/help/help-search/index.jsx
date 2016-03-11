@@ -107,7 +107,7 @@ module.exports = React.createClass( {
 				<SearchCard
 					onSearch={ this.onSearch }
 					initialValue={ this.props.search }
-					placeholder={ this.translate( 'Ask anything' ) }
+					placeholder={ this.translate( 'How can we help?' ) }
 					analyticsGroup="Help"
 					delaySearch={ true } />
 				{ this.displaySearchResults() }
