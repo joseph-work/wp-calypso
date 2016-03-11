@@ -59,8 +59,13 @@ export function singleSite( context, next ) {
 	props.key = siteId;
 	props.siteId = siteId;
 
-	context.store.dispatch( setSection( 'design', {
-		hasSidebar: true,
+	const section = {
+		name: 'themes',
+		group: 'sites',
+		secondary: true,
+	};
+
+	context.store.dispatch( setSection( section, {
 		isFullScreen: false
 	} ) );
 
@@ -72,8 +77,13 @@ export function multiSite( context, next ) {
 	const Head = require( 'layout/head' );
 	const props = getProps( context );
 
-	context.store.dispatch( setSection( 'design', {
-		hasSidebar: true,
+	const section = {
+		name: 'themes',
+		group: 'sites',
+		secondary: true,
+	};
+
+	context.store.dispatch( setSection( section, {
 		isFullScreen: false
 	} ) );
 
@@ -85,8 +95,13 @@ export function loggedOut( context, next ) {
 	const Head = require( 'my-sites/themes/head' );
 	const props = getProps( context );
 
-	context.store.dispatch( setSection( 'design', {
-		hasSidebar: false,
+	const section = {
+		name: 'themes',
+		group: 'sites',
+		secondary: false,
+	};
+
+	context.store.dispatch( setSection( section, {
 		isFullScreen: false
 	} ) );
 

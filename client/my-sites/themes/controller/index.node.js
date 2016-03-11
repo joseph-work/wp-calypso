@@ -67,7 +67,7 @@ export function fetchThemeDetailsData( context, next ) {
 } // TODO(ehg): We don't want to hit the endpoint for every req. Debounce based on theme arg?
 
 export function details( context, next ) {
-	const { slug, section } = context.params;
+	const { slug } = context.params;
 	const user = getCurrentUser( context.store.getState() );
 	const themeName = ( getThemeDetails( context.store.getState(), slug ) || false ).name;
 	const title = i18n.translate( '%(theme)s Theme', {
@@ -77,15 +77,21 @@ export function details( context, next ) {
 	const Head = user
 		? require( 'layout/head' )
 		: require( 'my-sites/themes/head' );
+
+	const section = {
+		name: 'theme',
+		group: 'sites',
+		secondary: false,
+	};
+
 	const props = {
 		themeSlug: slug,
-		contentSection: section,
+		contentSection: section.name,
 		title: decodeEntities( title ) + ' — WordPress.com', // TODO: Use lib/screen-title's buildTitle. Cf. https://github.com/Automattic/wp-calypso/issues/3796
 		isLoggedIn: !! user
 	};
 
-	context.store.dispatch( setSection( 'themes', {
-		hasSidebar: false,
+	context.store.dispatch( setSection( section, {
 		isFullScreen: true
 	} ) );
 
