@@ -58,14 +58,11 @@ function trackScrollPage( path, title, category, readerView, pageNum ) {
 
 // Listen for route changes and remove the full post dialog when we navigate away from it
 pageNotifier( function removeFullPostOnLeave( newContext, oldContext ) {
-	if ( ! oldContext ) {
-		return;
-	}
-
 	const fullPostViewRegex = /^\/read\/(blogs|feeds)\/([0-9]+)\/posts\/([0-9]+)$/i;
 
 	if ( ( ! oldContext || oldContext.path.match( fullPostViewRegex ) ) && ! newContext.path.match( fullPostViewRegex ) ) {
 		newContext.store.dispatch( hideReaderFullPost() );
+		removeFullPostDialog();
 	}
 } );
 
@@ -273,7 +270,7 @@ module.exports = {
 		);
 	},
 
-	feedPost: function( context ) {
+	feedPost: function( context, next ) {
 		var FullPostDialog = require( 'reader/full-post' ),
 			feedId = context.params.feed,
 			postId = context.params.post,
@@ -296,7 +293,10 @@ module.exports = {
 					onClose: function() {
 						page.back( context.lastRoute || '/' );
 					},
-					onClosed: removeFullPostDialog
+					onClosed: removeFullPostDialog,
+					onPostNotFound: function() {
+						module.exports.sidebar( context, next )
+					}
 				} )
 			),
 			document.getElementById( 'tertiary' )

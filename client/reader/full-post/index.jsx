@@ -48,7 +48,8 @@ var analytics = require( 'analytics' ),
 	DiscoverVisitLink = require( 'reader/discover/visit-link' ),
 	readerRoute = require( 'reader/route' ),
 	showReaderFullPost = require( 'state/ui/reader/fullpost/actions' ).showReaderFullPost,
-	smartSetState = require( 'lib/react-smart-set-state' );
+	smartSetState = require( 'lib/react-smart-set-state' ),
+	FeedError = require( 'reader/feed-error' );
 
 import PostExcerpt from 'components/post-excerpt';
 
@@ -481,13 +482,18 @@ FullPostContainer = React.createClass( {
 		this.smartSetState( this.getStateFromStores( nextProps ) );
 	},
 
-	componentDidUpdate: function( prevProps ) {
+	componentDidUpdate: function( prevProps, prevState ) {
 		if ( prevProps.postId !== this.props.postId ||
 			prevProps.feedId !== this.props.feedId ||
 			prevProps.blogId !== this.props.blogId ) {
 			this.hasSentPageView = false;
 			this.hasLoaded = false;
 			this.attemptToSendPageView();
+		}
+
+		if ( prevState.post && prevState.post.statusCode === 404 ) {
+			classes( document.documentElement ).remove( 'detail-page-open' );
+			prevProps.onPostNotFound();
 		}
 	},
 
@@ -508,6 +514,10 @@ FullPostContainer = React.createClass( {
 
 	render: function() {
 		var passedProps = omit( this.props, [ 'postId', 'feedId' ] );
+
+		if ( this.state.post && this.state.post.statusCode === 404 ) {
+			return <FeedError />;
+		}
 
 		if ( this.props.setPageTitle && this.props.isVisible ) { // only set the title if we're visible
 			this.props.setPageTitle( this.state.title );
