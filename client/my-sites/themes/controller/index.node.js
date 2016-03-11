@@ -86,7 +86,7 @@ export function details( context, next ) {
 
 	const props = {
 		themeSlug: slug,
-		contentSection: section.name,
+		contentSection: context.params.section,
 		title: decodeEntities( title ) + ' — WordPress.com', // TODO: Use lib/screen-title's buildTitle. Cf. https://github.com/Automattic/wp-calypso/issues/3796
 		isLoggedIn: !! user
 	};
