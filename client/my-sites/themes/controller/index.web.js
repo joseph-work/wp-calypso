@@ -65,9 +65,7 @@ export function singleSite( context, next ) {
 		secondary: true,
 	};
 
-	context.store.dispatch( setSection( section, {
-		isFullScreen: false
-	} ) );
+	context.store.dispatch( setSection( section, {} ) );
 
 	context.primary = makeElement( SingleSiteComponent, Head, context.store, props );
 	next();
@@ -83,9 +81,7 @@ export function multiSite( context, next ) {
 		secondary: true,
 	};
 
-	context.store.dispatch( setSection( section, {
-		isFullScreen: false
-	} ) );
+	context.store.dispatch( setSection( section, {} ) );
 
 	context.primary = makeElement( MultiSiteComponent, Head, context.store, props );
 	next();
@@ -101,9 +97,7 @@ export function loggedOut( context, next ) {
 		secondary: false,
 	};
 
-	context.store.dispatch( setSection( section, {
-		isFullScreen: false
-	} ) );
+	context.store.dispatch( setSection( section, {} ) );
 
 	context.primary = makeElement( LoggedOutComponent, Head, context.store, props );
 	next();
