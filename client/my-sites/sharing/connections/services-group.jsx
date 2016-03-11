@@ -2,7 +2,6 @@
  * External dependencies
  */
 var React = require( 'react' ),
-	get = require( 'lodash/get' ),
 	classNames = require( 'classnames' );
 
 /**
@@ -10,7 +9,8 @@ var React = require( 'react' ),
  */
 var Service = require( './service' ),
 	ServicePlaceholder = require( './service-placeholder' ),
-	SectionHeader = require( 'components/section-header' );
+	SectionHeader = require( 'components/section-header' ),
+	utils = require( 'lib/site/utils' );
 
 /**
  * Module variables
@@ -64,12 +64,12 @@ module.exports = React.createClass( {
 			}
 
 			// Omit if service is settings-oriented and user cannot manage
-			if ( 'eventbrite' === service.name && ! ( site.capabilities && site.capabilities.manage_options ) ) {
+			if ( 'eventbrite' === service.name && ! utils.userCan( 'manage_options', site ) ) {
 				return false;
 			}
 
 			// Omit if Publicize service and user cannot publish
-			if ( 'publicize' === service.type && ! get( site, 'capabilities.publish_posts' ) ) {
+			if ( 'publicize' === service.type && ! utils.userCan( 'publish_posts', site ) ) {
 				return false;
 			}
 

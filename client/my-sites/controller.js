@@ -20,6 +20,7 @@ var user = require( 'lib/user' )(),
 	config = require( 'config' ),
 	analytics = require( 'analytics' ),
 	siteStatsStickyTabActions = require( 'lib/site-stats-sticky-tab/actions' ),
+	utils = require( 'lib/site/utils' ),
 	trackScrollPage = require( 'lib/track-scroll-page' );
 
 /**
@@ -211,7 +212,7 @@ module.exports = {
 			var site = sites.getSite( siteFragment );
 			if ( ! site ) {
 				sites.once( 'change', checkSiteShouldFetch );
-			} else if ( site.jetpack && site.capabilities && site.capabilities.manage_options ) {
+			} else if ( site.jetpack && utils.userCan( 'manage_options', site ) ) {
 				site.fetchSettings();
 			}
 		}
