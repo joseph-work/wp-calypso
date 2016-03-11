@@ -42,7 +42,8 @@ function formatProduct( product ) {
 		is_domain_registration: product.is_domain_registration !== undefined
 			? product.is_domain_registration
 			: product.isDomainRegistration,
-		free_trial: product.free_trial || product.freeTrial
+		free_trial: product.free_trial || product.freeTrial,
+		is_email_verified: product.is_email_verified !== undefined && product.is_email_verified
 	} );
 }
 
@@ -290,6 +291,13 @@ function isSpaceUpgrade( product ) {
 		'100gb_space_upgrade' === product.product_slug;
 }
 
+function isEmailVerified( product ) {
+	product = formatProduct( product );
+	assertValidProduct( product );
+
+	return product.is_email_verified;
+}
+
 module.exports = {
 	formatProduct,
 	getDomainProductRanking,
@@ -321,5 +329,6 @@ module.exports = {
 	isUnlimitedSpace,
 	isUnlimitedThemes,
 	isVideoPress,
-	whitelistAttributes
+	whitelistAttributes,
+	isEmailVerified
 };
