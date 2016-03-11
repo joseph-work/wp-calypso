@@ -13,6 +13,7 @@ var SectionNav = require( 'components/section-nav' ),
 	NavItem = require( 'components/section-nav/item' ),
 	Main = require( 'components/main' ),
 	SidebarNavigation = require( 'my-sites/sidebar-navigation' ),
+	utils = require( 'lib/site/utils' ),
 	sites = require( 'lib/sites-list' )();
 
 module.exports = React.createClass( {
@@ -45,8 +46,7 @@ module.exports = React.createClass( {
 		// Include Sharing Buttons link if a site is selected and the
 		// required Jetpack module is active
 		if ( site &&
-			site.capabilities &&
-			site.capabilities.manage_options &&
+			utils.userCan( 'manage_options', site ) &&
 			( ! site.jetpack ||
 				( site.isModuleActive( 'sharedaddy' ) &&
 					site.versionCompare( '3.4-dev', '>=' ) )
