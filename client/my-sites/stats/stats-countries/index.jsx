@@ -58,7 +58,8 @@ export default React.createClass( {
 			data = this.data(),
 			hasError = this.props.dataList.isError(),
 			noData = this.props.dataList.isEmpty(),
-			isLoading = this.props.dataList.isLoading();
+			isLoading = this.props.dataList.isLoading(),
+			viewSummary;
 
 		const classes = [
 			'stats-module',
@@ -79,6 +80,14 @@ export default React.createClass( {
 		const summaryPageLink = '/stats/' + this.props.period.period + '/countryviews/' + this.props.site.slug + '?startDate=' + this.props.date;
 		const geochart = <Geochart data={ mapData } dataList={ this.props.dataList } />;
 		const countries = <StatsList moduleName={ this.props.path } data={ data } />;
+
+		if ( ! this.props.summary && this.props.dataList.response.viewAll ) {
+			viewSummary = (
+				<div key="view-all" className="module-expand">
+					<a href={ summaryPageLink }>{ this.translate( 'View All', { context: 'Stats: Button label to expand a panel' } ) }<span className="right"></span></a>
+				</div>
+			);
+		}
 
 		return (
 			<div>
@@ -119,6 +128,7 @@ export default React.createClass( {
 									? <ErrorPanel className={ 'network-error' } />
 									: null }
 							</div>
+							{ viewSummary }
 						</div>
 					</Card>
 			</div>

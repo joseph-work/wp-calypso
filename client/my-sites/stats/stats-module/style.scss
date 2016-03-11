@@ -62,16 +62,12 @@
 
 .module-expand {
 	line-height: 40px;
+	display: block;
 
 	@include breakpoint( "<480px" ) {
 		line-height: 48px;
 	}
 
-	.stats-module.is-expanded & {
-		display: block;
-	}
-
-	&,
 	.stats-module.is-loading &,
 	.stats-module.has-no-data & {
 		display: none;

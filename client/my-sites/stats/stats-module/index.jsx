@@ -80,14 +80,22 @@ export default React.createClass( {
 	},
 
 	render() {
-		var data = this.data(),
-			noData = this.props.dataList.isEmpty(),
-			hasError = this.props.dataList.isError(),
-			isLoading = this.props.dataList.isLoading(),
-			statsList,
-			classes;
+		const data = this.data();
+		const noData = this.props.dataList.isEmpty();
+		const hasError = this.props.dataList.isError();
+		const isLoading = this.props.dataList.isLoading();
+		const {
+			className,
+			summary,
+			site,
+			path,
+			dataList,
+			period,
+			moduleStrings,
+			followList } = this.props;
+		let viewSummary;
 
-		classes = classNames(
+		const classes = classNames(
 			'stats-module',
 			{
 				'is-loading': isLoading,
@@ -96,26 +104,34 @@ export default React.createClass( {
 			}
 		);
 
-		statsList = <StatsList moduleName={ this.props.path } data={ data } followList={ this.props.followList } />;
+		if ( ! summary && dataList.response.viewAll ) {
+			viewSummary = (
+				<div key="view-all" className="module-expand">
+					<a href="#" onClick={ this.viewAllHandler }>{ this.translate( 'View All', { context: 'Stats: Button label to expand a panel' } ) }<span className="right"></span></a>
+				</div>
+			);
+		}
+
+		const statsList = <StatsList moduleName={ path } data={ data } followList={ followList } />;
 
 		return (
 			<div>
-
 				<SectionHeader label={ this.getModuleLabel() }>
-					{ ! this.props.summary
+					{ ! summary
 						? this.renderViewAllButton()
-						: ( <DownloadCsv period={ this.props.period } path={ this.props.path } site={ this.props.site } dataList={ this.props.dataList } /> ) }
+						: ( <DownloadCsv period={ period } path={ path } site={ site } dataList={ dataList } /> ) }
 				</SectionHeader>
 				<Card compact className={ classes }>
-					<div className={ this.props.className }>
+					<div className={ className }>
 						<div className="module-content">
-							{ ( noData && ! hasError ) ? <ErrorPanel className="is-empty-message" message={ this.props.moduleStrings.empty } /> : null }
+							{ ( noData && ! hasError ) ? <ErrorPanel className="is-empty-message" message={ moduleStrings.empty } /> : null }
 							{ hasError ? <ErrorPanel className={ 'network-error' } /> : null }
-							<StatsListLegend value={ this.props.moduleStrings.value } label={ this.props.moduleStrings.item } />
+							<StatsListLegend value={ moduleStrings.value } label={ moduleStrings.item } />
 							<StatsModulePlaceholder isLoading={ isLoading } />
 							{ statsList }
 						</div>
 					</div>
+					{ viewSummary }
 				</Card>
 			</div>
 
