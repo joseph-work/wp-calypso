@@ -20,12 +20,9 @@ var PublishMenu = React.createClass( {
 		] ),
 		sites: React.PropTypes.object.isRequired,
 		siteSuffix: React.PropTypes.string,
-		isSingle: React.PropTypes.oneOfType( [
-			React.PropTypes.string,
-			React.PropTypes.bool
-		] ),
+		isSingle: React.PropTypes.bool,
 		itemLinkClass: React.PropTypes.func,
-		onNavigate: React.PropTypes.func,
+		onNavigate: React.PropTypes.func
 	},
 
 	// We default to `/my` posts when appropriate
