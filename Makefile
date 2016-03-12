@@ -86,9 +86,6 @@ run: welcome githooks install build
 node_modules/%:
 	@$(NPM) install $(notdir $@)
 
-# depend on the semver package directory rather than always running
-# `npm install semver` because that takes 10 seconds if the module is already
-# installed
 node-version: node_modules/semver
 	@$(BIN)/check-node-version
 
