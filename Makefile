@@ -64,19 +64,6 @@ export NODE_ENV := $(NODE_ENV)
 export CALYPSO_ENV := $(CALYPSO_ENV)
 export NODE_PATH := server$(SEPARATOR)client$(SEPARATOR).
 
-# We use `semver` to check the version of Node.js before installing npm
-# packages or running scripts.  Since this is before npm runs, we need to grab
-# the version of `semver` installed with the npm executable.
-ifeq ($(OS),Windows_NT)
-# On Windows, the npm global install path is under AppData:
-# http://stackoverflow.com/a/26894197
-# `semver` is in the base `node_modules` folder for the `node` installation.
-export SEMVER_GLOBAL_PATH := $(dir $(shell which $(NODE)))/node_modules/npm/node_modules/semver
-else
-# On OS X and Linux, npm is just a globally installed npm package.
-export SEMVER_GLOBAL_PATH := $(shell $(NPM) -g root)/npm/node_modules/semver
-endif
-
 .DEFAULT_GOAL := install
 
 welcome:
@@ -94,13 +81,21 @@ install: node_modules
 run: welcome githooks install build
 	@$(NODE) build/bundle-$(CALYPSO_ENV).js
 
-node-version:
-	@$(BIN)/check-node-version
-
 # a helper rule to ensure that a specific module is installed,
 # without relying on a generic `npm install` command
 node_modules/%: | node-version
 	@$(NPM) install $(notdir $@)
+
+# but `npm install semver` can't rely on node-version because node-version
+# needs semver to be installed
+node_modules/semver:
+	@$(NPM) install semver
+
+# depend on the semver package directory rather than always running
+# `npm install semver` because that takes 10 seconds if the module is already
+# installed
+node-version: node_modules/semver
+	@$(BIN)/check-node-version
 
 # ensures that the `node_modules` directory is installed and up-to-date with
 # the dependencies listed in the "package.json" file.
