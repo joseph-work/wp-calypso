@@ -218,7 +218,14 @@
 		display: block;
 		width: auto !important; // Dirrty, I know. But it overrides the inline styles applied to the image. -shaun
 		margin: 0 auto;
-		object-fit: cover;
+		max-height: 70vh;
+	}
+
+	&.is-shorter-abtest {
+		img {
+			object-fit: cover;
+			max-height: none;
+		}
 	}
 
 	// This helps avoid some random whitespace below YourTube embeds.

@@ -204,17 +204,22 @@ const Post = React.createClass( {
 			featuredSize = this.getFeaturedSize( maxWidth );
 		}
 
+		let featuredImageClasses = classnames( 'reader__post-featured-image' );
+
 		const maxImageHeight = ( {
 			fifty: '50vh',
 			twentyfive: '25vh',
 			twenty: '20vh',
-			original: '70vh'
+			original: null
 		} ) [ this.maxImageHeightVariaton ];
 
+		if ( maxImageHeight ) {
+			featuredImageClasses = classnames( featuredImageClasses, 'is-shorter-abtest' );
+		}
 
 		return useFeaturedEmbed ?
 			<div ref="featuredEmbed" className="reader__post-featured-video" key="featuredVideo" dangerouslySetInnerHTML={ { __html: featuredEmbed.iframe } } /> : //eslint-disable-line react/no-danger
-			<div className="reader__post-featured-image" onClick={ this.handlePermalinkClick } style={ { maxHeight: maxImageHeight } }>
+			<div className={ featuredImageClasses } onClick={ this.handlePermalinkClick } style={ { maxHeight: maxImageHeight } }>
 				{ featuredSize ?
 					<img className="reader__post-featured-image-image"
 						ref="featuredImage"
