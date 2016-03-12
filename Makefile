@@ -83,13 +83,8 @@ run: welcome githooks install build
 
 # a helper rule to ensure that a specific module is installed,
 # without relying on a generic `npm install` command
-node_modules/%: | node-version
+node_modules/%:
 	@$(NPM) install $(notdir $@)
-
-# but `npm install semver` can't rely on node-version because node-version
-# needs semver to be installed
-node_modules/semver:
-	@$(NPM) install semver
 
 # depend on the semver package directory rather than always running
 # `npm install semver` because that takes 10 seconds if the module is already
