@@ -208,7 +208,7 @@ const Post = React.createClass( {
 			fifty: '50vh',
 			twentyfive: '25vh',
 			twenty: '20vh',
-			original: null
+			original: '70vh'
 		} ) [ this.maxImageHeightVariaton ];
 
 
