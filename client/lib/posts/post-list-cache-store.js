@@ -1,26 +1,28 @@
 /**
  * External dependencies
  */
-var intersection = require( 'lodash/intersection' );
+import intersection from 'lodash/intersection';
 
 /**
  * Internal dependencies
  */
-var sites = require( 'lib/sites-list' )(),
-	Dispatcher = require( 'dispatcher' );
+import sitesFactory from 'lib/sites-list';
+import Dispatcher from 'dispatcher';
 
-var _cache = {},
-	TTL_IN_MS = 5 * 60 * 1000; // five minutes
+const _cache = {};
+const TTL_IN_MS = 5 * 60 * 1000; // five minutes
+const sites = sitesFactory();
+const PostsListCache = { get: get };
 
 function isStale( list ) {
-	var now = new Date().getTime(),
-		timeSaved = list.timeSaved;
+	const now = new Date().getTime();
+	const { timeSaved } = list;
 	return ( now - timeSaved ) > TTL_IN_MS;
 }
 
 function getCacheKey( options ) {
-	var cacheKey = '',
-		keys = Object.keys( options ).sort();
+	let cacheKey = '';
+	const keys = Object.keys( options ).sort();
 
 	keys.forEach( function( key ) {
 		if ( cacheKey.length ) {
@@ -34,21 +36,20 @@ function getCacheKey( options ) {
 }
 
 function get( query ) {
-	var key = getCacheKey( query );
+	const key = getCacheKey( query );
 
 	if ( _cache[ key ] && ! isStale( _cache[ key ] ) && ! _cache[ key ].dirty ) {
 		return _cache[ key ].list;
 	}
 
-	// We assume that when a consumer attempts to access a dirty key that we can safely delete it
-	// because the consumer will get new data to freshen the cache
+	// Delete the dirty cache to force a request for new data
 	if ( _cache[ key ] && _cache[ key ].dirty ) {
 		delete _cache[ key ];
 	}
 }
 
 function set( list ) {
-	var key = getCacheKey( list.query );
+	const key = getCacheKey( list.query );
 
 	// To make sure that a list marked dirty is reset the next time
 	// it is retrieved we skip updating entries that are dirty
@@ -62,12 +63,12 @@ function set( list ) {
 }
 
 function markDirty( post, oldStatus ) {
-	var site = sites.getSite( post.site_ID ),
-		affectedSites = [ site.slug, site.ID, false ],
-		affectedStatuses = [ post.status, oldStatus ],
-		listStatuses, key, entry, list;
+	const site = sites.getSite( post.site_ID );
+	const affectedSites = [ site.slug, site.ID, false ];
+	const affectedStatuses = [ post.status, oldStatus ];
+	let listStatuses, key, entry, list;
 
-	for( key in _cache ) {
+	for ( key in _cache ) {
 		if ( !_cache.hasOwnProperty( key ) ) {
 			continue;
 		}
@@ -91,12 +92,7 @@ function markDirty( post, oldStatus ) {
 
 		entry.dirty = true;
 	}
-
 }
-
-var PostsListCache = {
-	get: get
-};
 
 PostsListCache.dispatchToken = Dispatcher.register( function( payload ) {
 	var action = payload.action,
@@ -104,7 +100,7 @@ PostsListCache.dispatchToken = Dispatcher.register( function( payload ) {
 
 	Dispatcher.waitFor( [ PostListStore.dispatchToken ] );
 
-	switch( action.type ) {
+	switch ( action.type ) {
 		case 'FETCH_NEXT_POSTS_PAGE':
 			set( PostListStore.get() );
 			break;
@@ -124,7 +120,6 @@ PostsListCache.dispatchToken = Dispatcher.register( function( payload ) {
 			}
 			break;
 	}
-
 } );
 
-module.exports = PostsListCache;
+export default PostsListCache;
