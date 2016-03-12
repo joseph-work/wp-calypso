@@ -91,9 +91,10 @@ export class SyncHandler {
 			const localResponseHandler = localRecord => {
 				// let's be optimistic
 				debug( 'localResponseHandler()', localRecord );
-				if ( localRecord ) {
+				if ( localRecord && localRecord.body ) {
 					debug( 'local callback run => %o, params (%o), response (%o)', path, reqParams, localRecord );
 					// try/catch in case cached record does not match expected schema
+					localRecord.body._headers = { key, responseSource: 'local'};
 					try {
 						callback( null, localRecord.body );
 					} catch ( error ) {
@@ -136,6 +137,9 @@ export class SyncHandler {
 						} );
 
 						debug( 'server callback run => %o, params (%o), response (%o)', path, reqParams, res );
+						if ( res && res._headers && typeof res._headers === 'object' ) {
+							res._headers = Object.assign( { key, responseSource: 'server' }, res._headers );
+						}
 						callback( null, res );
 					} );
 				} );
