@@ -103,4 +103,15 @@ module.exports = {
 		},
 		defaultVariation: 'original'
 	},
+	readerShorterFeatures: {
+		datestamp: '20160311',
+		variations: {
+			original: 25,
+			fifty: 25,
+			twentyfive: 25,
+			twenty: 25
+		},
+		defaultVariation: 'original',
+		allowAnyLocale: true
+	}
 };

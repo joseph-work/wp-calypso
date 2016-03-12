@@ -76,14 +76,14 @@ ABTest.prototype.getVariationAndSetAsNeeded = function() {
 		return this.defaultVariation;
 	}
 
-	if ( ! this.isEligibleForAbTest() ) {
-		debug( '%s: User is ineligible to participate in A/B test', this.experimentId );
-		return this.defaultVariation;
-	}
-
 	if ( savedVariation && includes( this.variationNames, savedVariation ) ) {
 		debug( '%s: existing variation: "%s"', this.experimentId, savedVariation );
 		return savedVariation;
+	}
+
+	if ( ! this.isEligibleForAbTest() ) {
+		debug( '%s: User is ineligible to participate in A/B test', this.experimentId );
+		return this.defaultVariation;
 	}
 
 	newVariation = this.assignVariation();
