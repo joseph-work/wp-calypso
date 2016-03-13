@@ -8550,6 +8550,14 @@
           "version": "2.4.2"
         }
       }
+    },
+    "component-file-picker": {
+      "version": "0.2.1",
+      "dependencies": {
+        "component-event": {
+          "version": "0.1.4"
+        }
+      }
     }
   }
 }
