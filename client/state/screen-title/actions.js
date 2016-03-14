@@ -26,7 +26,10 @@ export function setTitle(title, options = {}) {
 };
 
 /**
+ * Sets the count for the page title.
  *
+ * @param  {Number}   count The count to display
+ * @return {Function}       Action thunk
  */
 export function setCount(count) {
 	return (dispatch) => {
