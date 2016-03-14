@@ -67,6 +67,9 @@
 		"receipts": {
 			"test": [ "reducer" ]
 		},
+		"screen-title": {
+			"test": [ "actions" ]
+		},
 		"sharing": {
 			"publicize": {
 				"test": [ "actions", "reducer", "selectors" ]
