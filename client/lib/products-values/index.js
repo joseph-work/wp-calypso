@@ -43,7 +43,7 @@ function formatProduct( product ) {
 			? product.is_domain_registration
 			: product.isDomainRegistration,
 		free_trial: product.free_trial || product.freeTrial,
-		is_email_verified: product.is_email_verified !== undefined && product.is_email_verified
+		is_email_verified: Boolean( product.is_email_verified )
 	} );
 }
 
@@ -310,6 +310,7 @@ module.exports = {
 	isDomainProduct,
 	isDomainRedemption,
 	isDomainRegistration,
+	isEmailVerified,
 	isEnterprise,
 	isFreeJetpackPlan,
 	isFreePlan,
@@ -329,6 +330,5 @@ module.exports = {
 	isUnlimitedSpace,
 	isUnlimitedThemes,
 	isVideoPress,
-	whitelistAttributes,
-	isEmailVerified
+	whitelistAttributes
 };
