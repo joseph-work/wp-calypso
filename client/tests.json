@@ -50,6 +50,9 @@
 	  	"google-apps-users": {
 			"test": [ "actions", "reducer", "selectors" ]
 		},
+		"document": {
+			"test": [ "reducer" ]
+		},
 		"notices": {
 			"test": [ "actions", "reducer" ]
 		},
