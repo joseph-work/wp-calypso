@@ -7,10 +7,10 @@ import { expect } from 'chai';
  * Internal dependencies
  */
 import {
-	PAGE_LINK_ADD,
-	PAGE_META_ADD,
-	PAGE_TITLE_SET,
-	PAGE_UNREAD_COUNT_SET
+	HEAD_LINK_ADD,
+	HEAD_META_ADD,
+	HEAD_TITLE_SET,
+	HEAD_UNREAD_COUNT_SET
 } from 'state/action-types';
 
 import {
@@ -27,7 +27,7 @@ describe( 'actions', () => {
 			const action = setTitle( 'Home' );
 
 			expect( action ).to.eql( {
-				type: PAGE_TITLE_SET,
+				type: HEAD_TITLE_SET,
 				title: 'Home'
 			} );
 		} );
@@ -38,7 +38,7 @@ describe( 'actions', () => {
 			const action = setDescription( 'Lorem ipsum dolor sit amet.' );
 
 			expect( action ).to.eql( {
-				type: PAGE_META_ADD,
+				type: HEAD_META_ADD,
 				meta: {
 					name: 'description',
 					content: 'Lorem ipsum dolor sit amet.'
@@ -52,7 +52,7 @@ describe( 'actions', () => {
 			const action = setUnreadCount( 123 );
 
 			expect( action ).to.eql( {
-				type: PAGE_UNREAD_COUNT_SET,
+				type: HEAD_UNREAD_COUNT_SET,
 				count: 123
 			} );
 		} );
@@ -63,7 +63,7 @@ describe( 'actions', () => {
 			const action = addLink( { rel: 'some-rel', content: 'some-content' } );
 
 			expect( action ).to.eql( {
-				type: PAGE_LINK_ADD,
+				type: HEAD_LINK_ADD,
 				link: { rel: 'some-rel', content: 'some-content' }
 			} );
 		} );
@@ -74,7 +74,7 @@ describe( 'actions', () => {
 			const action = addMeta( { rel: 'some-rel', content: 'some-content' } );
 
 			expect( action ).to.eql( {
-				type: PAGE_META_ADD,
+				type: HEAD_META_ADD,
 				meta: { rel: 'some-rel', content: 'some-content' }
 			} );
 		} );

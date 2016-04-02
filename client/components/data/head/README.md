@@ -1,19 +1,19 @@
-Page
+Head
 ====
 
 _This is a work in progress: only `title` and `unreadCount` are functional in the current state._
 
-`<Page />` is a React component used in assigning a title, description, unread count, link or meta to the global application state.
+`<Head />` is a React component used in assigning a title, description, unread count, link or meta to the global application state.
 
 ## Usage
 
-Render the component, passing `title`, `description`, `unreadCount`, `link` or `meta`. It does not accept any children, nor does it render any elements to the page.
+Render the component, passing `title`, `description`, `unreadCount`, `link` or `meta`. It does not accept any children, nor does it render any elements to the head
 
-Upon being rendered or updated, the application state and subsequently the page `<title>`, `<meta>` and `<link>` elements will be changed to reflect the new values.
+Upon being rendered or updated, the application state and subsequently the head `<title>`, `<meta>` and `<link>` elements will be changed to reflect the new values.
 
 ```jsx
 import React from 'react';
-import Page from 'components/data/page';
+import Head from 'components/data/head';
 
 export default function HomeSection() {
 	let count = 123;
@@ -22,7 +22,7 @@ export default function HomeSection() {
 
 	return (
 		<main>
-			<Page title="Home" description="Lorem ipsum" link={ links } meta={ metas } unreadCount={ count } />
+			<Head title="Home" description="Lorem ipsum" link={ links } meta={ metas } unreadCount={ count } />
 		</main>
 	);
 }

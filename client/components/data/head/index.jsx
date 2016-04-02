@@ -14,9 +14,9 @@ import {
 	addLink,
 	addMeta,
 	setUnreadCount
-} from 'state/page/actions';
+} from 'state/head/actions';
 
-class Page extends Component {
+class Head extends Component {
 	componentWillMount() {
 		this.props.setTitle( this.props.title );
 		this.props.setDescription( this.props.description );
@@ -66,7 +66,7 @@ class Page extends Component {
 	}
 }
 
-Page.propTypes = {
+Head.propTypes = {
 	title: PropTypes.string,
 	description: PropTypes.string,
 	unreadCount: PropTypes.number,
@@ -80,7 +80,7 @@ Page.propTypes = {
 	setUnreadCount: PropTypes.func.isRequired
 };
 
-Page.defaultProps = {
+Head.defaultProps = {
 	title: '',
 	unreadCount: 0,
 	link: [],
@@ -94,4 +94,4 @@ export default connect( null, {
 	addLink,
 	addMeta,
 	setUnreadCount
-} )( Page );
+} )( Head );
